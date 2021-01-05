@@ -1,0 +1,112 @@
+
+
+
+
+Chat
+from Khusdil Sir to Everyone:
+Where the database should be started..?14:07
+In the same python container or seperate container..?14:08
+from Adhi Narayan Baskaran to Khusdil Sir (privately):
+I am not able to unmute14:08
+from Shivani Mithapelli to Khusdil Sir (privately):
+Hi Prakash, are you speaking not able to hear you?14:13
+from Khusdil Sir to Everyone:
+what type of apps we can deploy in container..?14:14
+from Jaspreet Kaur to Khusdil Sir (privately):
+We can't hear you14:14
+from Khusdil Sir to Everyone:
+Can it be android or ios app?14:14
+from Jaspreet Kaur to Khusdil Sir (privately):
+And can't see your screen too14:15
+from Khusdil Sir to Everyone:
+let me check14:15
+from Shivani Mithapelli to Khusdil Sir (privately):
+we can see your screen now14:16
+but no audio14:16
+from Nitesh Rautela to Khusdil Sir (privately):
+yes14:16
+from Adhi Narayan Baskaran to Khusdil Sir (privately):
+yes14:17
+from Shivani Mithapelli to Khusdil Sir (privately):
+Yes14:17
+from Khusdil Sir to Everyone:
+docker run --name app-pg -e POSTGRES_PASSWORD=MySekret -e POSTGRES_USER=raju -e POSTGRES_DB=pg -d postgres14:22
+CREATE TABLE IF NOT EXISTS pg_users ( id int PRIMARY KEY, name varchar, address varchar );14:28
+CREATE TABLE IF NOT EXISTS pg_data ( count BIGINT, address varchar, currenttime BIGINT );14:30
+INSERT INTO pg_data (count,address,currenttime) VALUES (1,'192.56.55.66',234);14:30
+How to connect he python contyainer to postgres db?14:34
+docker build -f Dockerfile-PG.txt -t pg-server .14:40
+docker run -d --name pg-database pg-server14:42
+docker exec -it pg-database /bin/bash14:43
+select * from pg_data;14:44
+--link pg-database:dbserver14:45
+docker run -it -d --link pg-database:dbserver --name py-server -h py-host py-app14:46
+from Jaspreet Kaur to Khusdil Sir (privately):
+can you please admit Bhavesh into the meeting?14:48
+from Khusdil Sir to Everyone:
+pg=# select * from pg_data; count | address | currenttime -------+------------+--------------- 1 | 172.17.0.5 | 1609751879392 2 | 172.17.0.5 | 1609751907401 3 | 172.17.0.5 | 1609751917622 (3 rows)14:49
+any questions..?14:52
+from Shivani Mithapelli to Khusdil Sir (privately):
+pg=# select * from pg_data; count | address | currenttime -------+------------+--------------- 1 | 172.17.0.6 | 1609751605165 2 | 172.17.0.6 | 1609751662267 3 | 172.17.0.6 | 1609751684345 4 | 172.17.0.6 | 1609751841164 (4 rows)14:53
+from Khusdil Sir to Everyone:
+pg=# select * from pg_data; count | address | currenttime -------+------------+--------------- 1 | 172.17.0.5 | 1609751879392 2 | 172.17.0.5 | 1609751907401 3 | 172.17.0.5 | 1609751917622 4 | 172.17.0.5 | 1609751984483 5 | 172.17.0.5 | 1609752024931 (5 rows)14:53
+from ANISH ARALIKATTI to Khusdil Sir (privately):
+pg=# select * from pg_data; count | address | currenttime -------+--------------+--------------- 1 | 192.56.55.66 | 234 4 | 192.56.55.66 | 20 12 | 192.56.55.66 | 300 13 | 172.17.0.4 | 1609751994445 14 | 172.17.0.4 | 1609751997394 15 | 172.17.0.4 | 1609751998306 16 | 172.17.0.4 | 1609751999562 17 | 172.17.0.4 | 1609752182607 (8 rows)14:54
+from Nagapooja Bhat C B to Khusdil Sir (privately):
+pg=# select * from pg_data; count | address | currenttime -------+------------+--------------- 1 | 172.17.0.6 | 1609751879886 2 | 172.17.0.6 | 1609752073114 3 | 172.17.0.6 | 1609752074214 4 | 172.17.0.6 | 1609752074932 5 | 172.17.0.6 | 1609752075214 6 | 172.17.0.6 | 1609752075533 7 | 172.17.0.6 | 1609752076282 (7 rows)14:54
+from Khusdil Sir to Everyone:
+Linking not by ip.. but by container name14:55
+from Udit Narayan Vyas to Khusdil Sir (privately):
+Can you show the command to switch to db cli from bash ?14:59
+from Khusdil Sir to Everyone:
+docker run -d --name pg-database -v /pg-volume/data:/var/lib/postgresql/data --hostname pg-host pg-server15:16
+docker tag py-app pbadhe34/py-pg:pg-sql15:24
+docker tag pg-server pbadhe34/py-pg:pg-db15:28
+docker push pbadhe34/py-pg:pg-db15:29
+docker rmi py-app docker rmi pg-server docker rmi pbadhe34/py-pg:pg-db docker rmi pbadhe34/py-pg:pg-sql15:33
+Run Py-app docker run -it -d --link pg-database:dbserver --name py-server -h py-host pbadhe34/py-pg:pg-sql15:39
+Run15:41
+Run dataabse docker run -d --name pg-database -v /pg-volume/data:/var/lib/postgresql/data --hostname pg-host pbadhe34/py-pg:pg-db15:42
+Run Py-app docker run -it -d --link pg-database:dbserver --name py-server -h py-host pbadhe34/py-pg:pg-sql15:42
+ocker run -it -d -p 8080:8090 --link pg-database:dbserver --name py-server1 -h py-host pbadhe34/py-pg:pg-sql15:47
+from ANISH ARALIKATTI to Khusdil Sir (privately):
+Hello WebUser! Hostname:py-host Host-Address:172.17.0.4 Visits:1615:52
+from Rohit Bhati to Khusdil Sir (privately):
+Hello WebUser! Hostname:py-host Host-Address:172.17.0.5 Visits:815:54
+from Udit Narayan Vyas to Khusdil Sir (privately):
+Hello WebUser! Hostname:py-host Host-Address:172.17.0.6 Visits:2315:54
+from Jaspreet Kaur to Khusdil Sir (privately):
+Hello WebUser! Hostname:py-host Host-Address:172.17.0.3 Visits:1915:54
+from Nagapooja Bhat C B to Khusdil Sir (privately):
+Hello WebUser! Hostname:py-host Host-Address:172.17.0.6 Visits:2015:55
+from Bhavesh Gulecha to Everyone:
+Hello WebUser! Hostname:py-host Host-Address:172.17.0.6 Visits:1315:56
+from Shivani Mithapelli to Everyone:
+Hello WebUser! Hostname:py-host Host-Address:172.17.0.6 Visits:2215:56
+from Khusdil Sir to Everyone:
+Resume after 10 mins.16:01
+Lets continue.16:22
+Js and Node js skills in dev16:25
+java skills16:25
+Downloads/Docker-CISCO-Part1-main/java-MongoDB16:28
+Docker-commands-MongoDBp.md16:28
+http://172.17.0.4:8080/fruits16:38
+RESTED extension in Firefox brooser16:40
+CRUD opertaions with REST API16:44
+with microservices16:44
+http://172.17.0.4:8080/fruits16:46
+[ { "id": "5ff21435ecb65e5025a7341d", "name": "MyManho", "color": "keshari" }, { "id": "5ff21555ecb65e5025a7341e", "name": "Jambhul", "color": "Bliuies" }, { "id": "5ff2f80487ec731f6da9ebb7", "name": "APPLE", "color": "RED" } ]16:47
+from Nitesh Rautela to Khusdil Sir (privately):
+[{"id":"5ff2fa83433a9c49df1b9786","name":"dsdsdsf","color":"dsffsf"},{"id":"5ff2fa9d433a9c49df1b9787","name":"New name","color":"orange"},{"id":"5ff2fabd433a9c49df1b9788","name":"Name 2 ","color":"red"}]16:54
+from ANISH ARALIKATTI to Khusdil Sir (privately):
+[{"id":"5ff2fbdc23aa3424801ce40f","name":"Apple","color":"Red"}]16:59
+from Khusdil Sir to Everyone:
+Docker-CISCO-Part1-main/Python-Redis/Python-App/17:04
+Python-Redis app17:07
+FROM python:2.7-slim # Set the working directory to /app WORKDIR /app # Copy the current directory contents into the container at /app ADD . /app #connect through proxy for intrnet access if applicable,edit the proxy address #ENV HTTP_PROXY=http://10.10.5.18:8080 #ENV HTTPS_PROXY=http://10.10.5.18:8080 # Install any needed packages specified in requirements.txt #ADD requirements.txt /app/requirements.txt RUN pip install -r requirements.txt # Make port 8090 available to the world outside this container EXPOSE 8090 # Define environment variable ENV NAME WebUser # Run app.py when the container launches CMD ["python", "app.py"]17:08
+from ANISH ARALIKATTI to Khusdil Sir (privately):
+Hello WebUser! Hostname: app-host Host-Address:172.17.0.3 Visits: 917:23
+Send to:
+Everyone
+Type your message here
+

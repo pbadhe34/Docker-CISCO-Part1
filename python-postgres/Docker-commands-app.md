@@ -15,6 +15,10 @@ docker ps -a
 
   docker create --name apache-server httpd:2.4
 
+  docker run --name apache-server1 httpd:2.4
+
+  docker run -d -p 8090:80 --name server httpd:2.4
+
  To inspect the container
 
    docker inspect tomcat-server
@@ -46,9 +50,18 @@ docker ps -a
 
   docker create -p 8090:8080 --name tomcat-server tomcat:8.0-jre8
 
+
+  docker run -d -p 8090:8080 --name tomcat-server tomcat:8.0-jre8
+
+  docker exec -it tomcat-server /bin/bash
+
   docker create -p 8090:80 --name apache-server httpd:2.4
 
 docker run -p 8090:80 --name apache-server httpd:2.4
+
+ To execute command on container
+  docker exec -it apache-server1 /bin/bash/
+
 
    docker start tomcat-server 
 
@@ -229,7 +242,7 @@ This is how piping a file into a container could be done for a build. The contai
 -------------------------------------
   Build the custom image for PostGres Database server. 
 
-  docker build -f Dockerfile-PG -t pg-server .
+  docker build -f Dockerfile-PG.txt -t pg-server .
 
  Run the PG container with image
 
@@ -307,12 +320,23 @@ INSERT INTO pg_data (count,address,currenttime) VALUES (12,'192.56.55.66',300);
  
   Provide volume to Pg Databaase
 
+  /pg-volume/data:/var/lib/postgresql/data
+
 docker run -d --name pg-database -v /pg-volume/data:/var/lib/postgresql/data  --hostname pg-host pg-server 
 
   docker run --name app-mysql -v /mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=MyRootPass123 -e MYSQL_DATABASE=userservice -e MYSQL_USER=app-user -e MYSQL_PASSWORD=MyRootPass123 -d mysql:5.6
 
 
 *************************
+Image sharing
+pg-server  and py-app
+
+
+
+
+
+
+************************
 
 To get the redis working with HitCounter
 
@@ -431,7 +455,9 @@ The Python is serving your app at http://0.0.0.0:80. But that message is coming 
 
   docker rm <container-id/name>
 
- 
+ ---------------------------------------------
+
+  Publish the images 
   Log in to the Docker public registry on your local machine.
 
   docker login
@@ -439,16 +465,48 @@ The Python is serving your app at http://0.0.0.0:80. But that message is coming 
   Publish the image on docker hub in the format
   docker tag image username/repository:tag
 
- docker tag test-app pbadhe34/my-apps:app1
+  docker tag py-app pbadhe34/py-pg:pg-sql
+
+  docker tag pg-server pbadhe34/py-pg:pg-db
  
+
+  docker rmi py-app
+  docker rmi pg-server
+
+  Database
+  docker rmi pbadhe34/py-pg:pg-db
+
+  Py-app
+  docker rmi pbadhe34/py-pg:pg-sql
+
+  Run dataabse
+ docker run -d --name pg-database -v /pg-volume/data:/var/lib/postgresql/data  --hostname pg-host pbadhe34/py-pg:pg-db
+
+
+  Run Py-app
+
+
+docker run -it -d  --link pg-database:dbserver --name py-server -h py-host pbadhe34/py-pg:pg-sql 
+
+
+  docker run -it -d  -p 8080:8090 --link pg-database:dbserver --name py-server1 -h py-host pbadhe34/py-pg:pg-sql 
+
+
   docker images
   docker images ls
 
   To Publish the image to docker hub
   Upload your tagged image to the repository:
 
-  docker push pbadhe34/my-apps:app1
+  docker login
 
+  Python-app
+  docker push pbadhe34/py-pg:pg-sql
+
+   pg-database
+  docker push pbadhe34/py-pg:pg-db
+
+-----------------------------------------------
 Pull and run the image from the remote repository
 From now on, you can use docker run and run your app on any machine with this command in the format
 docker run -p 4000:8090 username/repository:tag

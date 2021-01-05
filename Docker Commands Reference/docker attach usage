@@ -1,0 +1,21 @@
+ Docker attach usage
+Use docker attach to attach your terminal’s standard input, output, and error (or any combination of the three) to a running container using the container’s ID or name. This allows you to view its ongoing output or to control it interactively, as though the commands were running directly in your terminal.
+To stop a container from attach session :  use CTRL-c. This key sequence sends SIGKILL to the container. If --sig-proxy is true (the default),CTRL-c sends a SIGINT to the container. 
+If the container was run with -i and -t, you can detach from a container and leave it running using the CTRL-p CTRL-q key sequence.
+
+  
+  docker run -d -it -p 5000:5000 --restart=always --name registry registry:2
+
+  -->Docker attach 2f01f0eb343c
+  Use ctrl+p followed by ctrl + q sequence toi detach the container without treminating it.
+-->Use Ctrl + C to detach  and terminate the container.
+
+
+  docker attach --sig-proxy=false 2f01f0eb343c
+-->Use ctrl and C option to detach the container  without stopping the container.
+
+  docker run -it busybox
+  docker ps
+  f36afbb6362b
+  docker attach f36afbb6362b
+  

@@ -1,0 +1,26 @@
+
+
+
+
+Chat
+from Khusdil Sir to Everyone:
+Good Morning.09:11
+We will start in 5 mins09:11
+https://github.com/pbadhe34/Docker-CISCO-Part209:17
+Docker-CISCO/java-apps/Docker-Tomcat-War09:20
+docker build -t tomcat-custom .09:36
+ashok and morYa10:01
+docker top relaxed_elbakyan10:04
+docker top relaxed_elbakyan10:05
+http://172.17.0.2:9090/LoginWebApp/10:08
+ADD LoginWebApp.war $CATALINA_HOME/webapps/LoginWebApp.war10:26
+docker commit 2351d86ee7de LoginAppTomcat10:28
+docker run -d loginapp10:30
+docker commit 2351d86ee7de loginapp10:30
+http://172.17.0.3:9090/LoginWebApp/10:31
+FROM tomcat:8.0-jre8 RUN apt-get update && apt-get -y upgrade WORKDIR /usr/local/tomcat ADD tomcat-users.xml $CATALINA_HOME/conf ADD server.xml $CATALINA_HOME/conf EXPOSE 808010:39
+docker build -f Dockerfile-org.txt -t tomcat-custom:v110:39
+Resume asfter 15 mins10:40
+ 
+ 
+

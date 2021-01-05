@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+    nginxproxy:
+        image: nginx
+        ports:
+            - 8080:8080
+            - 8081:8081
+        restart: always
+
+    app:
+        depends_on:
+            - nginxproxy
+        image: aspcore
+        restart: always
+
+    apache:
+        depends_on:
+            - nginxproxy
+        image: httpd:alpine
+        restart: always
+

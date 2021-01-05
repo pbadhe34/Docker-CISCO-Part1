@@ -1,0 +1,5 @@
+FROM postgres:latest
+ENV POSTGRES_PASSWORD=secK#et
+ENV POSTGRES_USER=raghav
+ENV POSTGRES_DB=pg
+COPY create_fixtures.sql /docker-entrypoint-initdb.d/create_fixtures.sql

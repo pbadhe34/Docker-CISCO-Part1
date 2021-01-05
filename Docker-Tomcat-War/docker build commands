@@ -1,0 +1,6 @@
+  Change the http port of tomcat in container from 9090 to 1080
+
+  Login to container
+  
+
+docker build -f Dockerfile-org.txt -t tomcat-custom:v1

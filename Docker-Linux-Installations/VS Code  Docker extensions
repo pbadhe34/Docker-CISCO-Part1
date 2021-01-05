@@ -1,0 +1,16 @@
+ VS Code for Linux
+ https://code.visualstudio.com/download
+https://code.visualstudio.com/docs/setup/linux
+
+
+ Install Visual Studio Code for Debian/Ubuntu based distributions is to download and install the .deb package (64-bit), either through the graphical software center if it's available, or through the command line with:
+
+sudo apt install ./<file>.deb
+
+
+ Docker extensions fpr VSCode
+ Docker for Visual Studio Code
+Docker Compose
+Docker Explorer
+Docker Extension Pack
+Docker registry explorer

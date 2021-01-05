@@ -1,0 +1,7 @@
+FROM php:7.0-apache
+#ENV APACHE_DOCUMENT_ROOT /path/to/new/root
+COPY config/php.ini /usr/local/etc/php/
+COPY src/ /var/www/html/
+
+
+
